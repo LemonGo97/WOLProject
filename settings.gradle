@@ -1,0 +1,8 @@
+include 'wol-client'
+include 'wol-server'
+
+rootProject.name = 'wol-project'
+
+rootProject.children.each {
+    it.buildFileName = it.name + '.gradle'
+}
