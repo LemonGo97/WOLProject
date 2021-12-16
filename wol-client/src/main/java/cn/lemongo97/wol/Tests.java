@@ -1,28 +1,18 @@
 package cn.lemongo97.wol;
 
-import cn.hutool.core.lang.Console;
-import cn.hutool.core.util.RuntimeUtil;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 public class Tests {
 
-    final static Pattern IP_MAC_PATTERN = Pattern.compile(".*?((?:(?:2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(?:2[0-4]\\d|25[0-5]|[01]?\\d\\d?)).*?(\\w{2}(?:[:|-]\\w{2}){5}).*");
 
     public static void main(String[] args) {
-        List<String> lines = RuntimeUtil.execForLines("arp -a");
-        for (String line : lines) {
-            Matcher matcher = IP_MAC_PATTERN.matcher(line);
-            if (matcher.find()){
-                Console.log("---------------------------------");
-                Console.log("IP: ", matcher.group(1));
-                Console.log("MAC: ", matcher.group(2));
-                Console.log("---------------------------------");
-            }
-        }
+        Map<String, String> arpTable = ArpHandler.scan();
+        sendMagicPacket("192.168.31.97", "04421A1FC012");
     }
+
+    private static void sendMagicPacket(String ip, String mac) {
+        MagicPacketSender.send(ip, mac, 9);
+    }
+
+
 }

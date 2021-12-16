@@ -16,8 +16,9 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // https://mvnrepository.com/artifact/cn.hutool/hutool-all
     implementation 'cn.hutool:hutool-all:5.7.17'
+    implementation 'io.netty:netty-all:4.1.72.Final'
+
 }
 
 test {
