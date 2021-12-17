@@ -10,8 +10,6 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 
-import java.nio.charset.StandardCharsets;
-
 /**
  * @author lemongo97
  */
@@ -21,7 +19,7 @@ public class Tests {
         String mac = ArpHandler.scan().get("192.168.31.97");
         Console.log(mac);
         wsTest();
-        sendMagicPacket("192.168.31.97", "04421A1FC012");
+        sendMagicPacket("192.168.31.97", mac);
     }
 
     private static void wsTest() {
@@ -43,7 +41,7 @@ public class Tests {
     }
 
     private static void sendMagicPacket(String ip, String mac) {
-        MagicPacketSender.send(ip, mac, 7);
+        MagicPacketSender.send(ip, mac, 9);
     }
 
 

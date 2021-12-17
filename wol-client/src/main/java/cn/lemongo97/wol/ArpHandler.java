@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class ArpHandler {
 
-    private final static Pattern IP_MAC_PATTERN = Pattern.compile(".*?((?:(?:2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(?:2[0-4]\\d|25[0-5]|[01]?\\d\\d?)).*?(\\w{2}(?:[:|-]\\w{2}){5}).*");
+    private final static Pattern IP_MAC_PATTERN = Pattern.compile(".*?((?:(?:2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(?:2[0-4]\\d|25[0-5]|[01]?\\d\\d?)).*?(\\w{1,2}(?:[:|-]\\w{1,2}){5}).*");
 
     public static Map<String, String> scan() {
         Map<String, String> arpTable = new HashMap<>();
@@ -24,11 +24,19 @@ public class ArpHandler {
             if (matcher.find()) {
                 String ip = matcher.group(1);
                 String mac = matcher.group(2);
+                String splitter = ":";
                 if (mac.contains("-")) {
-                    mac = mac.replaceAll("-", "");
-                } else if (mac.contains(":")) {
-                    mac = mac.replaceAll(":", "");
+                    splitter = "-";
                 }
+                String[] tmp = mac.split(splitter);
+                StringBuilder builder = new StringBuilder();
+                for (String s : tmp) {
+                    if (s.length() < 2){
+                        builder.append("0");
+                    }
+                    builder.append(s);
+                }
+                mac = builder.toString();
                 arpTable.put(ip, mac);
                 Console.log("---------------------------------");
                 Console.log("IP: ", ip);
