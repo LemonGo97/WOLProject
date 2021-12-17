@@ -1,0 +1,4 @@
+wol:
+  serviceUrl: ws://127.0.0.1:8080/ws/
+  clientId: 123
+  clientKey: aaa
