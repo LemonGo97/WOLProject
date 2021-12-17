@@ -54,9 +54,9 @@ public class MagicPacketSender {
         for (int i = 0; i < 16; i++) {
             builder.append(mac);
         }
-        for (int i = 0; i < 6; i++) {
-            builder.append("00");
-        }
+//        for (int i = 0; i < 6; i++) {
+//            builder.append("00");
+//        }
         mac = builder.toString();
         byte[] magicBytes = HexUtil.decodeHex(mac);
         Console.log(mac);

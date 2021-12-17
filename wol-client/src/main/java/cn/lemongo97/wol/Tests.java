@@ -20,8 +20,8 @@ public class Tests {
     public static void main(String[] args) {
         String mac = ArpHandler.scan().get("192.168.31.97");
         Console.log(mac);
-//        wsTest();
-//        sendMagicPacket("192.168.31.97", "04421A1FC012");
+        wsTest();
+        sendMagicPacket("192.168.31.97", "04421A1FC012");
     }
 
     private static void wsTest() {
