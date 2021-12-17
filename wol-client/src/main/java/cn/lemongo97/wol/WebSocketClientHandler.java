@@ -1,6 +1,7 @@
 package cn.lemongo97.wol;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.websocket.*;
 
@@ -10,7 +11,14 @@ import javax.websocket.*;
 @Slf4j
 @ClientEndpoint
 public class WebSocketClientHandler {
+
     private Session session;
+
+    private final MessageCrypt messageCrypt;
+
+    public WebSocketClientHandler(MessageCrypt messageCrypt) {
+        this.messageCrypt = messageCrypt;
+    }
 
     @OnOpen
     public void open(Session session) {
@@ -20,7 +28,7 @@ public class WebSocketClientHandler {
 
     @OnMessage
     public void onMessage(String message) {
-        log.info("Server send message: " + message);
+        log.info("Server send message: " + messageCrypt.decode(message));
     }
 
     @OnClose
