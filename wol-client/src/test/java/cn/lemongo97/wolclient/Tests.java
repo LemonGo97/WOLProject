@@ -1,14 +1,13 @@
-package cn.lemongo97.wol;
+package cn.lemongo97.wolclient;
 
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.lang.UUID;
-import cn.hutool.crypto.Mode;
-import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.lemongo97.wol.tools.MagicPacketSender;
+import cn.lemongo97.wol.tools.MessageCrypt;
 
 /**
  * @author lemongo97

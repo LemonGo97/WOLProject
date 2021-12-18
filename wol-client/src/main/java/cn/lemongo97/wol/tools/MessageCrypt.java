@@ -1,4 +1,4 @@
-package cn.lemongo97.wol;
+package cn.lemongo97.wol.tools;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.crypto.Mode;

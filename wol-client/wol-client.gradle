@@ -18,6 +18,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'cn.hutool:hutool-all:5.7.17'
     implementation 'io.netty:netty-all:4.1.72.Final'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
 }
 
