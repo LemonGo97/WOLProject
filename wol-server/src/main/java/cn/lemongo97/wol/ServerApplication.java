@@ -19,10 +19,11 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
         ((Runnable) () -> {
             try {
-                Thread.sleep(10000);
-                Command command = new ScanCommand();
-                command.setCommand("scan");
-                WebSocketServer.sendInfo("8dc6b6681d034402945fc5c44675424b", Response.success("8dc6b6681d034402945fc5c44675424b", command));
+                while (true){
+                    Thread.sleep(10000);
+                    Command command = new ScanCommand();
+                    WebSocketServer.sendInfo("8dc6b6681d034402945fc5c44675424b", Response.success("8dc6b6681d034402945fc5c44675424b", "scan", command));
+                }
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }

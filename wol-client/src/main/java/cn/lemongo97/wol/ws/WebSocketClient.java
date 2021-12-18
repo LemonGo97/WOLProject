@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Console;
 import cn.hutool.crypto.CryptoException;
 import cn.lemongo97.wol.common.Response;
 import cn.lemongo97.wol.model.command.Command;
+import cn.lemongo97.wol.tools.CommandFactory;
 import cn.lemongo97.wol.tools.MessageCrypt;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,10 +34,6 @@ public class WebSocketClient implements InitializingBean {
 
     private WebSocketContainer container;
     private WebSocketClientHandler client;
-
-    public void sendMessage(String message){
-        client.send(Response.success(clientId, message));
-    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -70,11 +67,14 @@ public class WebSocketClient implements InitializingBean {
             try{
                 message = messageCrypt.decode(message);
                 Console.log(message);
-                Response<Command> response = new Gson().fromJson(message, new TypeToken<Response<Command>>() {
+                Response<Object> response = new Gson().fromJson(message, new TypeToken<Response<Object>>() {
                 }.getType());
-                response.getBody().execute(this);
+                Command command = CommandFactory.getInstance(message, response.getCommand());
+                command.execute(this);
             } catch (CryptoException e){
                 log.error("服务端信息解码失败，请检查 clientId 和 clientKey 是否正确！！！",e);
+            } catch (Exception e){
+                log.error("服务端信息解码失败, 请提供相应日志信息到项目 issue！！！",e);
             }
         }
 
@@ -93,7 +93,7 @@ public class WebSocketClient implements InitializingBean {
         }
 
         public <T> void send(T message) {
-            this.send(Response.success(clientId, message));
+            this.send(Response.success(clientId, null, message));
         }
     }
 }

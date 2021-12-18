@@ -6,36 +6,45 @@ public class Response<T> {
 
     private String clientId;
 
+    private String command;
+
     private T body;
 
-    public static <T> Response<T> success(String clientId){
-        return new Response<>(200, clientId);
+    public static <T> Response<T> success(String clientId) {
+        return new Response<>(200, clientId, null);
     }
 
-    public static <T> Response<T> success(String clientId, T body){
-        return new Response<>(200, clientId, body);
+    public static <T> Response<T> success(String clientId, String command) {
+        return new Response<>(200, clientId, command);
     }
 
-    public static <T> Response<T> failed(String clientId){
-        return new Response<>(400, clientId);
+    public static <T> Response<T> success(String clientId, String command, T body) {
+        return new Response<>(200, clientId, command, body);
     }
 
-    public static <T> Response<T> failed(String clientId, T body){
-        return new Response<>(400, clientId, body);
+    public static <T> Response<T> failed(String clientId) {
+        return new Response<>(400, clientId, null);
     }
 
-    private Response(Integer code, String clientId, T body) {
+    public static <T> Response<T> failed(String clientId, T body) {
+        return new Response<>(400, clientId, null, body);
+    }
+
+    private Response(Integer code, String clientId, String command, T body) {
         this.code = code;
         this.clientId = clientId;
+        this.command = command;
         this.body = body;
     }
 
-    private Response(Integer code, String clientId) {
+    private Response(Integer code, String clientId, String command) {
         this.code = code;
         this.clientId = clientId;
+        this.command = command;
     }
 
-    public Response() {}
+    public Response() {
+    }
 
     public Integer getCode() {
         return code;
@@ -59,5 +68,13 @@ public class Response<T> {
 
     public void setBody(T body) {
         this.body = body;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
     }
 }

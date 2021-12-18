@@ -115,38 +115,6 @@ public class WebSocketServer {
     }
 
     /**
-     * 实现服务器主动推送
-     */
-    public void sendMessage(String message) throws IOException {
-        this.sendMessage(Response.success(clientId, message));
-    }
-
-    private void createCryptMethod(){
-        // TODO find clientKey By clientId from db
-        String clientKey = "FVHarl4P3PNLCksPpp7S7w==";
-        byte[] key = Base64.decode(clientKey);
-        byte[] iv = new byte[16];
-
-        byte[] clientIdBytes = clientId.getBytes();
-        for (int i = 0; i < clientIdBytes.length; i+=2) {
-            iv[i/2] = (byte) (clientIdBytes[i] & clientIdBytes[i+1]);
-        }
-        this.aes = new AES(Mode.CBC, Padding.PKCS5Padding, key, iv);
-    }
-
-    /**
-     * 发送自定义消息
-     */
-    public static void sendInfo(String clientId, String message) throws IOException {
-        log.info("发送消息到: {} ，报文: {}",clientId , message);
-        if (StrUtil.isNotBlank(clientId) && webSocketMap.containsKey(clientId)) {
-            webSocketMap.get(clientId).sendMessage(message);
-        } else {
-            log.info("客户端 {} ,不在线！", clientId);
-        }
-    }
-
-    /**
      * 发送自定义消息
      */
     public static <T> void sendInfo(String clientId, Response<T> message) throws IOException {
@@ -165,4 +133,18 @@ public class WebSocketServer {
     public static void setWebSocketMap(ConcurrentHashMap<String, WebSocketServer> webSocketMap) {
         WebSocketServer.webSocketMap = webSocketMap;
     }
+
+    private void createCryptMethod(){
+        // TODO find clientKey By clientId from db
+        String clientKey = "FVHarl4P3PNLCksPpp7S7w==";
+        byte[] key = Base64.decode(clientKey);
+        byte[] iv = new byte[16];
+
+        byte[] clientIdBytes = clientId.getBytes();
+        for (int i = 0; i < clientIdBytes.length; i+=2) {
+            iv[i/2] = (byte) (clientIdBytes[i] & clientIdBytes[i+1]);
+        }
+        this.aes = new AES(Mode.CBC, Padding.PKCS5Padding, key, iv);
+    }
+
 }
