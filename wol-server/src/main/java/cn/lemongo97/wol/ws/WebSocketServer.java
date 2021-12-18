@@ -1,4 +1,4 @@
-package cn.lemongo97.wol;
+package cn.lemongo97.wol.ws;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;

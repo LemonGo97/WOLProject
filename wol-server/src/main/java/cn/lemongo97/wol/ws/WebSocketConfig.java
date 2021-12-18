@@ -1,4 +1,4 @@
-package cn.lemongo97.wol;
+package cn.lemongo97.wol.ws;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
