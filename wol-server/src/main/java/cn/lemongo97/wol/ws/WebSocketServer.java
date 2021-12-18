@@ -1,12 +1,19 @@
 package cn.lemongo97.wol.ws;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.Mode;
+import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.symmetric.AES;
+import cn.lemongo97.wol.common.Response;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.Console;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,6 +38,8 @@ public class WebSocketServer {
      */
     private String clientId = "";
 
+    private AES aes;
+
     /**
      * 连接建立成功调用的方法
      */
@@ -38,6 +47,7 @@ public class WebSocketServer {
     public void onOpen(Session session, @PathParam("clientId") String clientId) {
         this.session = session;
         this.clientId = clientId;
+        this.createCryptMethod();
         webSocketMap.remove(clientId);
         webSocketMap.put(clientId, this);
         log.info("当前连接客户端: {}", clientId);
@@ -59,12 +69,13 @@ public class WebSocketServer {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
+        message = this.aes.decryptStr(message);
         log.info("收到客户端消息: {} ,报文: {}", clientId, message);
-        try {
-            sendMessage("asd");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            sendMessage("asd");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //        if (StrUtil.isNotBlank(message)) {
 //            try {
 //                Map<String, String> jsonObject = new Gson().fromJson(message, new TypeToken<Map<String, String>>() {
@@ -99,15 +110,46 @@ public class WebSocketServer {
     /**
      * 实现服务器主动推送
      */
-    public void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+    public <T> void sendMessage(Response<T> message) throws IOException {
+        this.session.getBasicRemote().sendText(aes.encryptBase64(new Gson().toJson(message)));
     }
 
+    /**
+     * 实现服务器主动推送
+     */
+    public void sendMessage(String message) throws IOException {
+        this.sendMessage(Response.success(clientId, message));
+    }
+
+    private void createCryptMethod(){
+        // TODO find clientKey By clientId from db
+        String clientKey = "FVHarl4P3PNLCksPpp7S7w==";
+        byte[] key = Base64.decode(clientKey);
+        byte[] iv = new byte[16];
+
+        byte[] clientIdBytes = clientId.getBytes();
+        for (int i = 0; i < clientIdBytes.length; i+=2) {
+            iv[i/2] = (byte) (clientIdBytes[i] & clientIdBytes[i+1]);
+        }
+        this.aes = new AES(Mode.CBC, Padding.PKCS5Padding, key, iv);
+    }
 
     /**
      * 发送自定义消息
      */
-    public static void sendInfo(String message, String clientId) throws IOException {
+    public static void sendInfo(String clientId, String message) throws IOException {
+        log.info("发送消息到: {} ，报文: {}",clientId , message);
+        if (StrUtil.isNotBlank(clientId) && webSocketMap.containsKey(clientId)) {
+            webSocketMap.get(clientId).sendMessage(message);
+        } else {
+            log.info("客户端 {} ,不在线！", clientId);
+        }
+    }
+
+    /**
+     * 发送自定义消息
+     */
+    public static <T> void sendInfo(String clientId, Response<T> message) throws IOException {
         log.info("发送消息到: {} ，报文: {}",clientId , message);
         if (StrUtil.isNotBlank(clientId) && webSocketMap.containsKey(clientId)) {
             webSocketMap.get(clientId).sendMessage(message);

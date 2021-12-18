@@ -2,3 +2,5 @@ wol:
   serviceUrl: ws://127.0.0.1:8080/ws/
   clientId: 8dc6b6681d034402945fc5c44675424b
   clientKey: FVHarl4P3PNLCksPpp7S7w==
+server:
+  port: 8081

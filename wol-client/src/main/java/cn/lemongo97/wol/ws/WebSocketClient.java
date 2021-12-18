@@ -1,5 +1,7 @@
 package cn.lemongo97.wol.ws;
 
+import cn.hutool.core.lang.Console;
+import cn.hutool.crypto.CryptoException;
 import cn.lemongo97.wol.common.Response;
 import cn.lemongo97.wol.model.command.Command;
 import cn.lemongo97.wol.tools.MessageCrypt;
@@ -17,6 +19,7 @@ import java.net.URI;
 /**
  * @author lemongo97
  */
+@Slf4j
 @Service
 public class WebSocketClient implements InitializingBean {
 
@@ -64,10 +67,15 @@ public class WebSocketClient implements InitializingBean {
 
         @OnMessage
         public void onMessage(String message) {
-            message = messageCrypt.decode(message);
-            Response<Command> response = new Gson().fromJson(message, new TypeToken<Response<Command>>() {
-            }.getType());
-            response.getBody().execute(this);
+            try{
+                message = messageCrypt.decode(message);
+                Console.log(message);
+                Response<Command> response = new Gson().fromJson(message, new TypeToken<Response<Command>>() {
+                }.getType());
+                response.getBody().execute(this);
+            } catch (CryptoException e){
+                log.error("服务端信息解码失败，请检查 clientId 和 clientKey 是否正确！！！",e);
+            }
         }
 
         @OnClose
