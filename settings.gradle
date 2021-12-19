@@ -1,5 +1,4 @@
-include 'wol-client'
-include 'wol-server'
+include ('wol-client', 'wol-server', 'wol-common')
 
 rootProject.name = 'wol-project'
 

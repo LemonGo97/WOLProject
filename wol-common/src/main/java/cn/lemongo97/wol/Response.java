@@ -1,4 +1,4 @@
-package cn.lemongo97.wol.common;
+package cn.lemongo97.wol;
 
 public class Response<T> {
 

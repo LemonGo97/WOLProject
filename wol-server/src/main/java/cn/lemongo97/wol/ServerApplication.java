@@ -1,6 +1,6 @@
 package cn.lemongo97.wol;
 
-import cn.lemongo97.wol.common.Response;
+import cn.lemongo97.wol.Response;
 import cn.lemongo97.wol.model.command.Command;
 import cn.lemongo97.wol.model.command.ScanCommand;
 import cn.lemongo97.wol.ws.WebSocketServer;

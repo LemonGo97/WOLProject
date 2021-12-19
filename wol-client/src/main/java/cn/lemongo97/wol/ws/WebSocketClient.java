@@ -2,7 +2,7 @@ package cn.lemongo97.wol.ws;
 
 import cn.hutool.core.lang.Console;
 import cn.hutool.crypto.CryptoException;
-import cn.lemongo97.wol.common.Response;
+import cn.lemongo97.wol.Response;
 import cn.lemongo97.wol.model.command.Command;
 import cn.lemongo97.wol.tools.CommandFactory;
 import cn.lemongo97.wol.tools.MessageCrypt;

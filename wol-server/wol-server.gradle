@@ -19,7 +19,7 @@ dependencies {
 
     implementation 'cn.hutool:hutool-all:5.7.17'
     implementation 'com.google.code.gson:gson:2.8.9'
-
+    implementation project(':wol-common')
 }
 
 test {
