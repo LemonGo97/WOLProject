@@ -6,7 +6,7 @@ import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.symmetric.AES;
 import cn.lemongo97.wol.Response;
-import com.google.gson.Gson;
+import cn.lemongo97.wol.utils.GsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -110,7 +110,7 @@ public class WebSocketServer {
      * 实现服务器主动推送
      */
     public <T> void sendMessage(Response<T> message) throws IOException {
-        this.session.getBasicRemote().sendText(aes.encryptBase64(new Gson().toJson(message)));
+        this.session.getBasicRemote().sendText(aes.encryptBase64(GsonUtil.toJson(message)));
     }
 
     /**

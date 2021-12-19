@@ -6,7 +6,7 @@ import cn.lemongo97.wol.Response;
 import cn.lemongo97.wol.model.command.Command;
 import cn.lemongo97.wol.tools.CommandFactory;
 import cn.lemongo97.wol.tools.MessageCrypt;
-import com.google.gson.Gson;
+import cn.lemongo97.wol.utils.GsonUtil;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -67,8 +67,7 @@ public class WebSocketClient implements InitializingBean {
             try{
                 message = messageCrypt.decode(message);
                 Console.log(message);
-                Response<Object> response = new Gson().fromJson(message, new TypeToken<Response<Object>>() {
-                }.getType());
+                Response<Object> response = GsonUtil.fromJson(message, new TypeToken<Response<Object>>(){});
                 Command command = CommandFactory.getInstance(message, response.getCommand());
                 command.execute(this);
             } catch (CryptoException e){
@@ -89,7 +88,7 @@ public class WebSocketClient implements InitializingBean {
          * @param message 消息内容
          */
         public <T> void send(Response<T> message) {
-            this.session.getAsyncRemote().sendText(messageCrypt.encode(new Gson().toJson(message)));
+            this.session.getAsyncRemote().sendText(messageCrypt.encode(GsonUtil.toJson(message)));
         }
 
         public <T> void send(T message) {

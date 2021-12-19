@@ -1,6 +1,8 @@
 package cn.lemongo97.wol;
 
-public class Response<T> {
+import java.io.Serializable;
+
+public class Response<T> implements Serializable {
 
     private Integer code;
 
