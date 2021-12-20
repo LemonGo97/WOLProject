@@ -12,7 +12,7 @@ public class GsonUtil {
     private GsonUtil() {
     }
 
-    public static <T extends Serializable> String toJson(T obj) {
+    public static String toJson(Object obj) {
         return gson.toJson(obj);
     }
 
