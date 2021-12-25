@@ -1,0 +1,21 @@
+plugins {
+  id 'com.github.node-gradle.node' version "3.0.1"
+}
+
+task cnpmInstall(type: NpmTask) {
+  group = 'node'
+  args = ['install', '--registry=https://registry.npmmirror.com']
+}
+
+task npmBuild(type: NpmTask, dependsOn: cnpmInstall) {
+  group = 'node'
+  args = ['run', 'build:prod']
+}
+
+//Gradle的java插件的jar任务，依赖npmBuild,即web子模块打jar包前必须运行npm run build
+jar.dependsOn npmBuild
+
+task runDev(type: NpmTask, dependsOn: cnpmInstall) {
+  group = 'node'
+  args = ['run', 'dev']
+}
