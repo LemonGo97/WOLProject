@@ -1,10 +1,11 @@
+publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANy4Fa57NEkscuGtitgoCyMtfSmHAlS4e99LR4+v6gRq9gqpVxgVHYd+WSl3aqf8tZFnU8QKY2iF92E5vGfeUXECAwEAAQ==
 spring:
   profiles:
     active: dev
   datasource:
     url: jdbc:mysql://devServer:3306/wol
     username: root
-    password: VIS1gnur1knap8worn
+    password: AwUr85QF3w1kpim5NMvMOt5pR/8r5H3NNRcU0IgcpOlSSXXeG3VVyZ6lEM8NmP90svJnQX2nTxRKTlbPv4Y3QA==
     driver-class-name: org.mariadb.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -15,6 +16,8 @@ spring:
       max-wait: 5000
       keep-alive: true
       filter:
+        config:
+          enabled: true
         stat:
         enabled: true
         db-type: mariadb
@@ -39,6 +42,7 @@ spring:
         allow:
       remove-abandoned: false
       test-while-idle: true
+      connection-properties: config.decrypt=true;config.decrypt.key=${publicKey}
   jpa:
     database: mysql
     database-platform: mysql
