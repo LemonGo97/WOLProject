@@ -1,18 +1,18 @@
 package cn.lemongo97.wol.service.impl;
 
-import cn.lemongo97.wol.model.User;
-import cn.lemongo97.wol.repository.UserJpaRepository;
 import cn.lemongo97.wol.service.IAuthenticationFacade;
+import cn.lemongo97.wol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationFacade implements IAuthenticationFacade {
 
     @Autowired
-    private UserJpaRepository userJpaRepository;
+    private UserService userService;
 
     @Override
     public Authentication getAuthentication() {
@@ -20,8 +20,8 @@ public class AuthenticationFacade implements IAuthenticationFacade {
     }
 
     @Override
-    public User getSessionUser() {
+    public UserDetails getSessionUser() {
 
-        return userJpaRepository.findUserByUsername((String) getAuthentication().getPrincipal());
+        return userService.loadUserByUsername((String) getAuthentication().getPrincipal());
     }
 }

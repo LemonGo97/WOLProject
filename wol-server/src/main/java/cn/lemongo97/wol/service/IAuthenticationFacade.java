@@ -1,7 +1,7 @@
 package cn.lemongo97.wol.service;
 
-import cn.lemongo97.wol.model.User;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface IAuthenticationFacade {
 
@@ -15,5 +15,5 @@ public interface IAuthenticationFacade {
      * 获取当前登录用户名
      * @return
      */
-    User getSessionUser();
+    UserDetails getSessionUser();
 }

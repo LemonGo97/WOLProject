@@ -79,3 +79,5 @@ mybatis-plus:
     default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
   global-config:
     banner: false
+  type-aliases-package: cn.lemongo97.wol.model
+  mapper-locations: classpath*:mybatis/mapper/*.xml
