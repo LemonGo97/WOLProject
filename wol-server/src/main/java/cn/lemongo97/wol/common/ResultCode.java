@@ -18,6 +18,7 @@ public enum ResultCode {
     USER_NOT_EXIST(2004,"用户不存在"),
     USER_HAS_EXISTED(2005,"用户已存在"),
     USER_TOKEN_EXPIRED(2006, "Token 已过期"),
+    USER_TOKEN_NOT_FOUND(2006, "Token 必须传递！"),
     USER_ACCOUNT_LOCKED(2007,"账户已被锁定"),
     USER_PASSWD_EXPIRED(2008,"密码过期，请联系管理员!"),
     USER_ACCOUNT_EXPIRED(2009,"账户过期，请联系管理员!"),
