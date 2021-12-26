@@ -1,6 +1,5 @@
 package cn.lemongo97.wol.service;
 
-import cn.lemongo97.wol.config.Result;
 import cn.lemongo97.wol.model.ServicePO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

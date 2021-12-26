@@ -14,10 +14,21 @@ import java.util.Date;
 @NoArgsConstructor
 @SuperBuilder
 public class BaseService {
+    /**
+     * 创建时间
+     */
     @TableField
     protected Date createTime;
+
+    /**
+     * 更新时间
+     */
     @TableField
     protected Date updateTime;
+
+    /**
+     * 用户 ID
+     */
     @TableField
     protected Long userId;
 }
