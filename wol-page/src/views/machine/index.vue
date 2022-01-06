@@ -62,6 +62,12 @@
           </el-button>
           <el-button
             size="mini"
+            icon="el-icon-search"
+            type="success"
+            @click="handleWake(scope.row)">唤醒
+          </el-button>
+          <el-button
+            size="mini"
             icon="el-icon-edit"
             type="primary"
             @click="handleEdit(scope.row)">修改
@@ -142,6 +148,9 @@ export default {
       console.log(row)
       this.uuid = row.id
       this.Dioslog.DetailVisible = true
+    },
+    handleWake(row) {
+      alert(JSON.stringify(row.id))
     },
     handleDelete(row) {
       remove(row.id).then(response => {
