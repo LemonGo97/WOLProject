@@ -1,9 +1,17 @@
 <template>
-  <el-dialog :title='(uuid?"修改":"增加") + "服务"' :visible.sync="visible" :close-on-click-modal="false" :before-close="close"  width="40%">
-    点击确定后服务器会自动生成 clientId 和 clientKey，请注意保存并配置到您的客户端中
+  <el-dialog :title='(uuid?"修改":"增加") + "唤醒机"' :visible.sync="visible" :close-on-click-modal="false" :before-close="close"  width="40%">
+    <!-- 点击确定后服务器会自动生成 clientId 和 clientKey，请注意保存并配置到您的客户端中 -->
     <el-form :model="service">
-      <el-form-item label="服务名称" :label-width="formLabelWidth">
+      <el-form-item label="唤醒机名称" :label-width="formLabelWidth">
         <el-input v-model="service.name" autocomplete="off" style="width: 100%"></el-input>
+      </el-form-item>
+      <el-form-item label="IP" :label-width="formLabelWidth">
+        <IPAddress ref="ip" v-model="service.ipAddress" :value="service.ipAddress"></IPAddress>
+        <!-- <el-input v-model="service.ipAddress" autocomplete="off" style="width: 100%"></el-input> -->
+      </el-form-item>
+      <el-form-item label="mac地址" :label-width="formLabelWidth">
+        <MacAddress v-model="service.macAddress" :value="service.macAddress"></MacAddress>
+        <!-- <el-input v-model="service.macAddress" autocomplete="off" style="width: 100%"></el-input> -->
       </el-form-item>
       <el-form-item label="描述" :label-width="formLabelWidth">
       <el-input v-model="service.description" type="textarea" autocomplete="off" style="width: 100%"></el-input>
@@ -17,10 +25,10 @@
 </template>
 
 <script>
-import { getOne, save, modify } from '@/api/service'
+import { getOne, save, modify } from '@/api/machine'
 
 export default {
-  name: 'ServiceDialog',
+  name: 'machineDialog',
   props: {
     visible: {
       type: Boolean
@@ -28,9 +36,6 @@ export default {
     uuid: {
       type: String,
       default: undefined
-    },
-    handleDetail: {
-      type: Function
     }
   },
   created() {
@@ -54,6 +59,8 @@ export default {
       this.$emit('closePopWindow')
     },
     submitPopWindow() {
+      this.service.ipAddress = this.service.ipAddress.substr(0,this.service.ipAddress.length-1)
+      this.service.macAddress = this.service.macAddress.substr(0,this.service.macAddress.length-1)
       if (this.uuid) {
         modify(this.service).then(response => {
           this.close()
@@ -61,7 +68,6 @@ export default {
       } else {
         save(this.service).then(response => {
           this.close()
-          this.handleDetail(response.data)
         })
       }
     }

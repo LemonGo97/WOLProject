@@ -58,9 +58,7 @@ export const constantRoutes = [
     path: '/service',
     component: Layout,
     redirect: 'noRedirect',
-    name: '服务管理',
     meta: {
-      title: '服务管理',
       icon: 'server'
     },
     children: [
@@ -76,15 +74,13 @@ export const constantRoutes = [
     path: '/machine',
     component: Layout,
     redirect: 'noRedirect',
-    name: '唤醒机管理',
     meta: {
-      title: '唤醒机管理',
       icon: 'task'
     },
     children: [
       {
         path: '',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/machine/index'),
         name: '唤醒机管理',
         meta: { title: '唤醒机管理', icon: 'dashboard' }
       }

@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <div class="jumbotron">
-      <h1><svg-icon icon-class="rocketmq" />&nbsp;&nbsp;服务管理</h1>
+      <h1><svg-icon icon-class="rocketmq" />&nbsp;&nbsp;唤醒机管理</h1>
       <p>服务管理的简介服务管理的简介服务管理的简介服务管理的简介服务管理的简介服务管理的简介服务管理的简介服务管理的简介服务管理的简介服务管理的简介</p>
     </div>
     <div class="filter-container" style="margin-top: 10px">
       <el-button icon="el-icon-refresh" @click="refreshContent()">刷新</el-button>
-      <el-button icon="el-icon-circle-plus-outline" type="primary" @click="handleEdit({})">添加服务</el-button>
+      <el-button icon="el-icon-circle-plus-outline" type="primary" @click="handleEdit({})">添加唤醒机</el-button>
     </div>
     <el-table
       :data="tableData"
@@ -14,13 +14,20 @@
       style="width: 100%;margin-top: 10px">
       <el-table-column
         align="center"
-        prop="id"
-        label="clientId">
+        prop="name"
+        label="唤醒机名称">
       </el-table-column>
       <el-table-column
         align="center"
-        prop="name"
-        label="服务名称">
+        prop="ipAddress"
+        label="IP"
+        width="160">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        prop="macAddress"
+        label="mac地址"
+        width="160">
       </el-table-column>
       <el-table-column
         align="center"
@@ -34,6 +41,13 @@
         prop="updateTime"
         label="更新时间"
         width="160"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        prop="description"
+        label="描述"
+        :show-overflow-tooltip="true"
       >
       </el-table-column>
       <el-table-column
@@ -78,17 +92,17 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange">
     </el-pagination>
-    <service-dialog v-if="Dioslog.popWindowVisible" :uuid="uuid" :visible.sync="Dioslog.popWindowVisible" :handleDetail="handleDetail" @closePopWindow="closePopWindow"></service-dialog>
-    <service-detail v-if="Dioslog.DetailVisible" :uuid="uuid" :visible.sync="Dioslog.DetailVisible" @closePopWindow="closePopWindow"></service-detail>
+    <machine-dialog v-if="Dioslog.popWindowVisible" :uuid="uuid" :visible.sync="Dioslog.popWindowVisible" @closePopWindow="closePopWindow"></machine-dialog>
+    <machine-detail v-if="Dioslog.DetailVisible" :uuid="uuid" :visible.sync="Dioslog.DetailVisible" @closePopWindow="closePopWindow"></machine-detail>
   </div>
 </template>
 
 <script>
-import { getList, remove } from '@/api/service'
-import ServiceDialog from '@/views/service/dialog/serviceDialog'
-import ServiceDetail from '@/views/service/dialog/serviceDetail'
+import { getList, remove } from '@/api/machine'
+import MachineDialog from '@/views/machine/dialog/machineDialog'
+import MachineDetail from '@/views/machine/dialog/machineDetail'
 export default {
-  components: { ServiceDialog, ServiceDetail },
+  components: { MachineDialog, MachineDetail },
   inject: ['reload'],
   data() {
     return {
