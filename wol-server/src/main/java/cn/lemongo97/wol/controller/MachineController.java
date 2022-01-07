@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @ResponseResult
 @RequestMapping("/machine")
@@ -39,5 +41,10 @@ public class MachineController {
     @GetMapping("/{machineId}")
     public MachinePO get(@PathVariable String machineId) {
         return machineService.getById(machineId);
+    }
+
+    @GetMapping("/{machineId}")
+    public void wake(@PathVariable String machineId) throws IOException {
+        machineService.wake(machineId);
     }
 }
