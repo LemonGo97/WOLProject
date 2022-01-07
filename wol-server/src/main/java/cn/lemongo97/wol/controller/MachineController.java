@@ -43,7 +43,7 @@ public class MachineController {
         return machineService.getById(machineId);
     }
 
-    @GetMapping("/{machineId}")
+    @GetMapping("/wake/{machineId}")
     public void wake(@PathVariable String machineId) throws IOException {
         machineService.wake(machineId);
     }
