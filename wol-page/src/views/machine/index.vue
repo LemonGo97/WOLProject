@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { getList, remove } from '@/api/machine'
+import { getList, remove, wake } from '@/api/machine'
 import MachineDialog from '@/views/machine/dialog/machineDialog'
 import MachineDetail from '@/views/machine/dialog/machineDetail'
 export default {
@@ -139,7 +139,7 @@ export default {
       })
     },
     handleEdit(row) {
-      if(row.id) {
+      if (row.id) {
         this.uuid = row.id
       }
       this.Dioslog.popWindowVisible = true
@@ -150,7 +150,8 @@ export default {
       this.Dioslog.DetailVisible = true
     },
     handleWake(row) {
-      alert(JSON.stringify(row.id))
+      wake(row.id)
+      alert('已提交唤醒任务')
     },
     handleDelete(row) {
       remove(row.id).then(response => {

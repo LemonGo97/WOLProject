@@ -37,3 +37,10 @@ export function modify(data) {
     data
   })
 }
+
+export function wake(id) {
+  return request({
+    url: '/machine/wake/' + id,
+    method: 'get'
+  })
+}
